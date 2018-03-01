@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.entity.Grade" table="grade">
+		<id name="gid" column="gid" type="java.lang.Integer">
+			<generator class="increment"/>
+		</id>
+		<property name="gname" type="java.lang.String">
+			<column name="gname" length="20" not-null="true"/>
+		</property>
+		<property name="gdesc" type="java.lang.String">
+			<column name="gdesc"/>
+		</property>
+
+
+		<!--配置单项的一对多关联关系
+			inverse:默认为false,我们设置为true,表示由多方维护关联关系，一方不需要去维护，节约不必要的性能开销
+			cascade:默认为none,表示不进行级联操作，即保存班级时，不自动保存班级学生信息，现修改为save-update
+		-->
+		<set name="students" table="student" inverse="true" cascade="save-update">
+			<!--指定关联的外键列-->
+			<key column="gid"></key>
+			<one-to-many class="com.entity.Student"/>
+		</set>
+
+	</class>
+</hibernate-mapping>
